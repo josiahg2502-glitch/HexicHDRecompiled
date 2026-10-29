@@ -2,8 +2,8 @@
 # The game reads presses appended to the live script (see port/src/script_input.h).
 param([Parameter(Mandatory)][string]$Cmd, [string]$Arg = '', [int]$Hold = 150, [string[]]$Extra = @())
 
-$bin = 'N:\Projects\HexicHD\port\out\build\win-amd64-release'
-$docs = 'N:\Projects\HexicHD\docs'
+$bin = 'N:\Recomps\HexicHD\port\out\build\win-amd64-release'
+$docs = 'N:\Recomps\HexicHD\docs'
 $script = "$docs\live-input.txt"
 $pidFile = "$docs\live.pid"
 
@@ -18,7 +18,7 @@ public static class LiveWin { [DllImport("user32.dll")] public static extern boo
 switch ($Cmd) {
   'start' {
     Set-Content $script "# live session`n" -NoNewline -Encoding ascii
-    $gameArgs = @('--game_data_root="N:\ROMS\Xbox 360\Hexic HD"', '--user_data_root=N:\Projects\HexicHD\userdata',
+    $gameArgs = @('--game_data_root="N:\ROMS\Xbox 360\Hexic HD"', '--user_data_root=N:\Recomps\HexicHD\userdata',
                   '--fullscreen=false', "--input_script=$script", "--log_file=$docs\live.log") + $Extra
     $p = Start-Process "$bin\hexic.exe" -WorkingDirectory $bin -PassThru -ArgumentList $gameArgs
     $p.Id | Set-Content $pidFile

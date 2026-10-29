@@ -1,8 +1,8 @@
-# Assembles a runnable folder: tools\package.ps1 [-Out N:\Projects\HexicHD\dist\HexicHD]
+# Assembles a runnable folder: tools\package.ps1 [-Out N:\Recomps\HexicHD\dist\HexicHD]
 # Game data is never included; the player drops their own XBLA package into game\.
-param([string]$Out = 'N:\Projects\HexicHD\dist\HexicHD')
+param([string]$Out = 'N:\Recomps\HexicHD\dist\HexicHD')
 
-$bin = 'N:\Projects\HexicHD\port\out\build\win-amd64-release'
+$bin = 'N:\Recomps\HexicHD\port\out\build\win-amd64-release'
 if (!(Test-Path "$bin\hexic.exe")) { throw "missing $bin\hexic.exe - build first" }
 
 # Replace what we ship; keep the player's game files, settings and logs.

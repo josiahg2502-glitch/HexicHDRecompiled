@@ -15,7 +15,7 @@ Static recompilation of Hexic HD (2005, Carbonated Games / Microsoft, title ID 5
 | Path | What |
 |---|---|
 | `N:\ROMS\Xbox 360\Hexic HD\` | unpacked game files (default.xex, *.swf, *.wma, *.xml). Source: `Downloads\Hexic HD.rar` (an STFS PIRS package). |
-| `N:\Projects\Monopoly\rexglue-sdk` | the SDK, shared with the Monopoly port (same pinned commit c94f5eb). This port's SDK changes are in `patches/rexglue-xbla-fixes.patch`; Monopoly's are in its own `patches/`. |
+| `N:\Recomps\Monopoly\rexglue-sdk` | the SDK, shared with the Monopoly port (same pinned commit c94f5eb). This port's SDK changes are in `patches/rexglue-xbla-fixes.patch`; Monopoly's are in its own `patches/`. |
 | `port/` | the game: `hexic_manifest.toml`, `config/hexic.toml` (codegen function list), `src/` (app, crash logger, script input, STFS installer), `assets/shader_cache`, `generated/` (codegen output, not in git) |
 | `tools/` | `env.cmd`, `sdk_install.cmd` (rebuild SDK runtime/codegen and copy into its install tree), `stfs.py` (unpack a package), `ppcdis.py` (disassemble the dumped image with capstone), `find_missing_funcs.py` + `fix_missing_funcs.ps1`, `run.ps1`, `live.ps1` + `nav.ps1`, `merge_shader_cache.py`, `warm_shader_cache.ps1`, `package.ps1` |
 
@@ -35,7 +35,7 @@ Run from source: `port\out\build\win-amd64-release\hexic.exe --game_data_root="N
 
 Unattended testing: `tools\live.ps1 start`, then `tools\nav.ps1 "A:4 DOWN:1 A:2" -Shot name`, then `tools\live.ps1 stop` (closes gracefully, which flushes shader storage). Merge new shaders with `python -I tools\merge_shader_cache.py port\assets\shader_cache userdata\cache` and rebuild.
 
-Dump the decrypted image for analysis: set `REXGLUE_DUMP_IMAGE=N:\Projects\HexicHD\image.bin` and run codegen.
+Dump the decrypted image for analysis: set `REXGLUE_DUMP_IMAGE=N:\Recomps\HexicHD\image.bin` and run codegen.
 
 ## Fixes and findings
 

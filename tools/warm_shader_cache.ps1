@@ -8,8 +8,8 @@
 # usage: tools\warm_shader_cache.ps1 [-Extra @('--input_script=...')]
 param([string[]]$Extra = @())
 
-$bin = 'N:\Projects\HexicHD\port\out\build\win-amd64-release'
-$cache = 'N:\Projects\HexicHD\port\assets\shader_cache'
+$bin = 'N:\Recomps\HexicHD\port\out\build\win-amd64-release'
+$cache = 'N:\Recomps\HexicHD\port\assets\shader_cache'
 $before = (Get-ChildItem $cache -Recurse -File -ErrorAction SilentlyContinue | Measure-Object Length -Sum).Sum
 
 $gameArgs = @('--game_data_root="N:\ROMS\Xbox 360\Hexic HD"', '--fullscreen=false', "--cache_root=$cache") + $Extra

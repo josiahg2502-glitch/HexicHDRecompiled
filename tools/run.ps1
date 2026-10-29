@@ -2,11 +2,11 @@
 # usage: tools\run.ps1 [-At 10,20,30] [-Name run] [-Extra @('--some_cvar=1')]
 param([int[]]$At = @(30), [string]$Name = 'run', [string[]]$Extra = @(), [double]$Scale = 0.5)
 
-$bin = 'N:\Projects\HexicHD\port\out\build\win-amd64-release'
-$docs = 'N:\Projects\HexicHD\docs'
+$bin = 'N:\Recomps\HexicHD\port\out\build\win-amd64-release'
+$docs = 'N:\Recomps\HexicHD\docs'
 $log = "$docs\$Name.log"
 Remove-Item $log, "$docs\$Name-*.png" -ErrorAction SilentlyContinue
-New-Item -ItemType Directory -Force N:\Projects\HexicHD\userdata | Out-Null
+New-Item -ItemType Directory -Force N:\Recomps\HexicHD\userdata | Out-Null
 
 Add-Type -AssemblyName System.Drawing
 Add-Type @"
@@ -16,7 +16,7 @@ public static class Win { [DllImport("user32.dll")] public static extern bool Pr
   public struct RECT { public int L, T, R, B; } }
 "@ -ErrorAction SilentlyContinue
 
-$args_ = @('--game_data_root="N:\ROMS\Xbox 360\Hexic HD"', '--user_data_root=N:\Projects\HexicHD\userdata',
+$args_ = @('--game_data_root="N:\ROMS\Xbox 360\Hexic HD"', '--user_data_root=N:\Recomps\HexicHD\userdata',
            '--gpu_plugin=xenos', "--log_file=$log") + $Extra
 $p = Start-Process "$bin\hexic.exe" -ArgumentList $args_ -WorkingDirectory $bin -PassThru
 $start = Get-Date
