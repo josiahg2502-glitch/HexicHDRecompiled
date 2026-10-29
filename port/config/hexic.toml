@@ -1,0 +1,33 @@
+# Codegen settings for default.xex, included from hexic_manifest.toml.
+
+[functions]
+# Reached only through the `this`-adjust thunk at 0x9219D9B0 (addi r3,r3,4; b); no .pdata entry.
+0x92194DC0 = {}
+0x9204E170 = { end = 0x9204E188 }  # referenced from 0x920007F0
+0x92053588 = { end = 0x92053598 }  # referenced from 0x92053630
+0x92053598 = { end = 0x920535A8 }  # referenced from 0x9205361C
+0x920535A8 = { end = 0x920535B8 }  # referenced from 0x92053644
+0x92145A48 = { end = 0x92145A98 }  # referenced from 0x92021C28
+0x92145A98 = { end = 0x92145AB0 }  # referenced from 0x92021C30
+0x92194B90 = { end = 0x92194B98 }  # referenced from 0x9202E58C
+0x92194BA0 = { end = 0x92194BA8 }  # referenced from 0x9202E594
+0x9219DC50 = { end = 0x9219DC58 }  # referenced from 0x9202E508
+0x9219DC60 = { end = 0x9219DC68 }  # referenced from 0x9202F62C
+0x9219DC70 = { end = 0x9219DC78 }  # referenced from 0x9202F634
+0x9219DC78 = { end = 0x9219DC80 }  # referenced from 0x9202F6B0
+0x9219DC88 = { end = 0x9219DC90 }  # referenced from 0x9202F5D0
+0x9219DCA8 = { end = 0x9219DCB0 }  # referenced from 0x9202F5EC
+0x9219DCB0 = { end = 0x9219DCB8 }  # referenced from 0x9202F6D8
+0x9219DCC0 = { end = 0x9219DCC8 }  # referenced from 0x9202F6E0
+0x9219DCD0 = { end = 0x9219DCD8 }  # referenced from 0x9202F6E8
+0x921B1A58 = { end = 0x921B1A70 }  # referenced from 0x92033FCC
+0x92234CB8 = { end = 0x92234CD0 }  # referenced from 0x92234CD8
+0x9224E768 = { end = 0x9224E780 }  # referenced from 0x92250040
+0x9204E188 = { end = 0x9204E1A0 }  # referenced from 0x920007F4
+0x92194B98 = { end = 0x92194BA0 }  # referenced from 0x9202E590
+0x9219DC68 = { end = 0x9219DC70 }  # referenced from 0x9202F630
+0x9219DC80 = { end = 0x9219DC88 }  # referenced from 0x9202F6B4
+0x9204E1A0 = { end = 0x9204E1B8 }  # referenced from 0x920007F8
+0x9204E1D0 = { end = 0x9204E1E8 }  # referenced from 0x920007FC
+0x9204E1B8 = { end = 0x9204E1D0 }  # referenced from 0x92000800
+0x9204E1E8 = { end = 0x9204E200 }  # referenced from 0x92000804

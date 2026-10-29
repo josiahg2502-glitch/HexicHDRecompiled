@@ -1,0 +1,10 @@
+# Codegen output, build trees, packaged builds
+/port/generated/
+/port/out/
+/dist/
+# Local test saves, dumps and game files
+/userdata/
+/image.bin
+*.xex
+*.wma
+*.swf

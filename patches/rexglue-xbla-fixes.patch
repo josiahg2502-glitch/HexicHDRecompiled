@@ -1,0 +1,82 @@
+diff --git a/src/codegen/binary_view.cpp b/src/codegen/binary_view.cpp
+index 30694bc..74476d8 100644
+--- a/src/codegen/binary_view.cpp
++++ b/src/codegen/binary_view.cpp
+@@ -1,4 +1,4 @@
+-/**
++﻿/**
+  * @file        codegen/binary_view.cpp
+  *
+  * @copyright   Copyright (c) 2026 Tom Clay <tomc@tctechstuff.com>
+@@ -8,7 +8,11 @@
+  *              See LICENSE file in the project root for full license text.
+  */
+ 
++#include <algorithm>
++#include <cstdio>
++#include <cstdlib>
+ #include <limits>
++#include <vector>
+ 
+ #include <rex/codegen/binary_view.h>
+ #include <rex/logging.h>
+@@ -101,6 +105,17 @@ BinaryView BinaryView::fromModule(const runtime::Module& module) {
+   REXCODEGEN_DEBUG("BinaryView: loaded {} sections, base=0x{:08X}, size=0x{:X}",
+                    view.sections_.size(), view.baseAddress_, view.imageSize_);
+ 
++  // Debug aid: write the decrypted, decompressed image for offline analysis tools.
++  if (const char* dump = std::getenv("REXGLUE_DUMP_IMAGE")) {
++    std::vector<uint8_t> image(view.imageSize_);
++    for (const auto& s : view.sections_)
++      std::copy_n(s.data, s.size, image.begin() + (s.baseAddress - view.baseAddress_));
++    if (FILE* f = std::fopen(dump, "wb")) {
++      std::fwrite(image.data(), 1, image.size(), f);
++      std::fclose(f);
++    }
++  }
++
+   return view;
+ }
+ 
+diff --git a/src/system/xmemory.cpp b/src/system/xmemory.cpp
+index 76cc877..493fcff 100644
+--- a/src/system/xmemory.cpp
++++ b/src/system/xmemory.cpp
+@@ -795,8 +795,11 @@ bool Memory::InitializeFunctionTable(uint32_t code_base, uint32_t code_size, uin
+       "(+{:08X} thunk reserve)",
+       table_base, table_size, code_base, code_base + code_size, kThunkReserveSize);
+ 
+-  if (!heaps_.v80000000.AllocFixed(
+-          table_base, table_size, 0x10000,
++  // The table follows the image, so it lives in the image's heap: 0x80000000 (64 KB pages) for
++  // disc titles, 0x90000000 (4 KB pages) for XBLA titles loaded at 0x92000000.
++  auto* heap = LookupHeap(table_base);
++  if (!heap || !heap->AllocFixed(
++          table_base, table_size, heap->page_size(),
+           memory::kMemoryAllocationReserve | memory::kMemoryAllocationCommit,
+           memory::kMemoryProtectRead | memory::kMemoryProtectWrite)) {
+     REXSYS_ERROR("Failed to allocate function table at {:08X}", table_base);
+@@ -839,7 +842,7 @@ bool Memory::DestroyFunctionTable(uint32_t code_base) {
+   REXSYS_DEBUG("Destroying function table at {:08X}, size {:08X} for code {:08X}-{:08X}",
+                table_base, table_size, logged_code_base, logged_code_base + logged_code_size);
+ 
+-  heaps_.v80000000.Release(table_base);
++  LookupHeap(table_base)->Release(table_base);
+   return true;
+ }
+ 
+diff --git a/src/system/xthread.cpp b/src/system/xthread.cpp
+index 77bce25..3743914 100644
+--- a/src/system/xthread.cpp
++++ b/src/system/xthread.cpp
+@@ -1449,6 +1449,10 @@ void XHostThread::Execute() {
+   // Let the kernel know we are starting.
+   kernel_state_->OnThreadExecute(this);
+ 
++  // Host threads also run guest callbacks (audio, XMA); keep host FP exceptions masked for them
++  // like guest threads, or the first mtfsf loads a zero csr and unmasks them all.
++  thread_state_->context()->fpscr.InitHost();
++
+   int ret = host_fn_();
+ 
+   // Exit.
